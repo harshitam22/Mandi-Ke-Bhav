@@ -12,44 +12,7 @@
 </head>
 
 <body>
-    <header>
-        <img src="css/images/logo1.png" alt="logo" class="logo">
-        <div class="group">
-            <ul class="navigation">
-                <li><a href="/">Home</a></li>
-                <li><a href="trends">Trends</a></li>
-                <div class="dropdown">
-                    <button class="dropbtn">Shop
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="vegetables">Vegetable</a>
-                        <a href="fruits">Fruits</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropbtn">Account
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="#">Personal Details</a>
-                        <a href="#">Location</a>
-                        <a href="login">Login</a>
-                    </div>
-                </div>
-            </ul>
-            <div class="search">
-                <span class="icon">
-                    <ion-icon name="search-outline" class="searchbtn"></ion-icon>
-                    <ion-icon name="close-outline" class="closebtn"></ion-icon>
-                </span>
-            </div>
-            <ion-icon name="menu-outline" class="menuToggle"></ion-icon>
-        </div>
-        <div class="SearchBox">
-            <input type="text" placeholder="Search Your Vegetable">
-        </div>
-    </header>
+    {{> header }}
     <div class="grid grid-cols-2">
         <div><img src="css/images/sign.webp" style="padding-top: 25%; padding-left: 20%;"></div>
         <div class="my-6 mx-auto border border-slate-200 rounded-2xl shadow-xl overflow-hidden">
@@ -105,52 +68,13 @@
                             Q 200 -100 80 200
                             z">
                 </path>
-                <a xlink:href="signup.html">
+                <a xlink:href="register">
                     <text x="200" y="70" fill="white">Sign Up</text>
                 </a>
             </svg>
         </div>
     </div>
-    <footer class="footer" id="foot">
-        <div class="container">
-            <div class="row">
-                <div class="footer-col">
-                    <h4>company</h4>
-                    <ul>
-                        <li><a href="/">about us</a></li>
-                        <li><a href="#">our services</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>get help</h4>
-                    <ul>
-                        <li><a href="FAQ">FAQ</a></li>
-                        <li><a href="feedback">Feedback</a></li>
-                        <li><a href="#">shipping</a></li>
-                        <li><a href="#">order status</a></li>
-                        <li><a href="#">payment options</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>online shop</h4>
-                    <ul>
-                        <li><a href="vegetables">vegetables</a></li>
-                        <li><a href="fruits">fruits</a></li>
-
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>follow us</h4>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    {{> footer}}
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>

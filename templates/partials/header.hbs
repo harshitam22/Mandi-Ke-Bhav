@@ -1,15 +1,29 @@
-  <link rel="stylesheet" href="css/homestyle.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/header.css">
 <header>
-    
-    <img src="images/logo.jpeg" alt="logo" class="logo">
+    <img src="css/images/logo2.png" alt="logo" class="logo">
     <div class="group">
         <ul class="navigation">
-            <li><a href="home.html">Home</a></li>
-            <li><a href="trends.html">Trends</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href='/'>Home</a></li>
+            <li><a href="trends">Trends</a></li>
+            <div class="dropdown">
+                <button class="dropbtn">Shop
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#">Vegetable</a>
+                    <a href="#">Fruits</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">Account
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#">Personal Details</a>
+                    <a href="#">Location</a>
+                    <a href="login">Login</a>
+                </div>
+            </div>
         </ul>
         <div class="search">
             <span class="icon">
@@ -22,4 +36,36 @@
     <div class="SearchBox">
         <input type="text" placeholder="Search Your Vegetable">
     </div>
-    </header>
+</header>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+    let searchbtn = document.querySelector('.searchbtn');
+    let closebtn = document.querySelector('.closebtn');
+    let SearchBox = document.querySelector('.SearchBox');
+    let navigation = document.querySelector('.navigation');
+    let menuToggle = document.querySelector('.menuToggle');
+    let header = document.querySelector('header');
+
+    searchbtn.onclick = function () {
+        SearchBox.classList.add('active');
+        closebtn.classList.add('active');
+        searchbtn.classList.add('active');
+        menuToggle.classList.add('hide');
+        header.classList.remove('open');
+    }
+
+    closebtn.onclick = function () {
+        SearchBox.classList.remove('active');
+        closebtn.classList.remove('active');
+        searchbtn.classList.remove('active');
+        menuToggle.classList.remove('hide');
+    }
+
+    menuToggle.onclick = function () {
+        header.classList.toggle('open');
+        SearchBox.classList.remove('active');
+        closebtn.classList.remove('active');
+        searchbtn.classList.remove('active');
+    }    
+</script>
