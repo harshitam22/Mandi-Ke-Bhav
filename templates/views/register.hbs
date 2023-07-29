@@ -37,7 +37,7 @@
                                 placeholder="Email"
                                 name="email">
                         </div>
-                        <div class="mb-3"><input type="text"
+                        <div class="mb-3"><input type="password"
                                 class="px-7 py-1 border border-black rounded-lg  text-black placeholder:text-black font-medium"
                                 placeholder="Password"
                                 name="password">
@@ -73,38 +73,6 @@
         
     
     {{> footer }}
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script>
-        let searchbtn = document.querySelector('.searchbtn');
-        let closebtn = document.querySelector('.closebtn');
-        let SearchBox = document.querySelector('.SearchBox');
-        let navigation = document.querySelector('.navigation');
-        let menuToggle = document.querySelector('.menuToggle');
-        let header = document.querySelector('header');
-
-        searchbtn.onclick = function () {
-            SearchBox.classList.add('active');
-            closebtn.classList.add('active');
-            searchbtn.classList.add('active');
-            menuToggle.classList.add('hide');
-            header.classList.remove('open');
-        }
-
-        closebtn.onclick = function () {
-            SearchBox.classList.remove('active');
-            closebtn.classList.remove('active');
-            searchbtn.classList.remove('active');
-            menuToggle.classList.remove('hide');
-        }
-
-        menuToggle.onclick = function () {
-            header.classList.toggle('open');
-            SearchBox.classList.remove('active');
-            closebtn.classList.remove('active');
-            searchbtn.classList.remove('active');
-        }    
-    </script>
     <script>
         function func() {
                 document.getElementById("signup").submit();

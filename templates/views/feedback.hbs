@@ -29,10 +29,10 @@
             <label for="rate-2" class="fas fa-star"></label>
             <input type="radio" name="rate" id="rate-1">
             <label for="rate-1" class="fas fa-star"></label>
-            <form action="#" method="post">
+            <form action="/feedback" method="post">
                 <header></header>
                 <div class="textarea">
-                    <textarea cols="30" placeholder="Describe your experience..."></textarea>
+                    <textarea cols="30" placeholder="Describe your experience..." name="textAreaData"></textarea>
                 </div>
                 <div class="btn">
                     <button type="submit">Post</button>
@@ -43,54 +43,6 @@
 
     {{> footer}}
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script>
-        let searchbtn = document.querySelector('.searchbtn');
-        let closebtn = document.querySelector('.closebtn');
-        let SearchBox = document.querySelector('.SearchBox');
-        let navigation = document.querySelector('.navigation');
-        let menuToggle = document.querySelector('.menuToggle');
-        let header = document.querySelector('header');
-
-        searchbtn.onclick = function () {
-            SearchBox.classList.add('active');
-            closebtn.classList.add('active');
-            searchbtn.classList.add('active');
-            menuToggle.classList.add('hide');
-            header.classList.remove('open');
-        }
-
-        closebtn.onclick = function () {
-            SearchBox.classList.remove('active');
-            closebtn.classList.remove('active');
-            searchbtn.classList.remove('active');
-            menuToggle.classList.remove('hide');
-        }
-
-        menuToggle.onclick = function () {
-            header.classList.toggle('open');
-            SearchBox.classList.remove('active');
-            closebtn.classList.remove('active');
-            searchbtn.classList.remove('active');
-        }
-
-        const btn = document.querySelector("button");
-        const post = document.querySelector(".post");
-        const widget = document.querySelector(".star-widget");
-        const editbtn = document.querySelector(".edit");
-        btn.onclick = function () {
-            widget.style.display = "none";
-            post.style.display = "block";
-            editbtn.onclick = function () {
-                widget.style.display = "block";
-                post.style.display = "none";
-
-            }
-            return false;
-        }
-
-    </script>
 </body>
 
 </html>
