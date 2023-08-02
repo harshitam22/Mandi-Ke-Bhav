@@ -7,6 +7,7 @@ const Register = require("./models/register");
 const async = require("hbs/lib/async");
 const exp = require("constants");
 const Feedback = require('./models/feedback');
+const bcrypt = require('bcrypt');
 
 
 const port=process.env.PORT || 3300;
@@ -64,14 +65,23 @@ app.get('*', (req, res) => {
 
 app.post("/register", async (req, res) => {
     try {
-        const registerEmployee = new Register({
+        const password = req.body.password;
+        const confirm = req.body.confirm;
+        if(password == confirm){
+            const registerEmployee = new Register({
             full_name: req.body.full_name,
             email: req.body.email,
             password: req.body.password,
+            confirm:req.body.confirm,
         });
 
         const registered = await registerEmployee.save();
-        res.render("register", { success: "Registration successful!." });
+        res.render("login", { success: "Registration successful!." });
+        }
+        else{
+            res.render("register" , { error: "Password do not match" });
+        }
+        
     } catch (error) {
         res.status(400).send(error);
     }
@@ -83,8 +93,8 @@ app.post("/login", async (req, res) => {
         const password = req.body.password;
 
         const user = await Register.findOne({ email: email });
-
-        if (user && user.password === password) {
+        const realPass = await bcrypt.compare(password ,user.password);
+        if (user && realPass) {
             // Successful login
             res.render("index", { success: "Login successful! Welcome back." });
         } else {
