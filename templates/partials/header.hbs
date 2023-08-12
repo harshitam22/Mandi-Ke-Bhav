@@ -10,8 +10,8 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="#">Vegetable</a>
-                    <a href="#">Fruits</a>
+                    <a href="vegetables">Vegetable</a>
+                    <a href="fruits">Fruits</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -19,9 +19,12 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="#">Personal Details</a>
-                    <a href="#">Location</a>
+                    <button id = "locate">Location</button>
+                    {{#if isAuthenticated}}
+                    <a href="logout">Logout</a>
+                    {{else}}
                     <a href="login">Login</a>
+                    {{/if}}
                 </div>
             </div>
         </ul>
@@ -34,7 +37,7 @@
         <ion-icon name="menu-outline" class="menuToggle"></ion-icon>
     </div>
     <div class="SearchBox">
-        <input type="text" placeholder="Search Your Vegetable">
+        <input type="text" placeholder="Search Your Item" id="item">
     </div>
 </header>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

@@ -42,10 +42,17 @@
                                 placeholder="Password"
                                 name="password">
                         </div>
-                        <div class="mb-3"><input type="password"
-                                class="px-7 py-1 border border-black rounded-lg  text-black placeholder:text-black font-medium"
-                                placeholder="Confirm Password" name="confirm">
+                        {{#if success}}
+                        <div id="success-message" style="color: green; font-weight: bold;">
+                            {{success}}
                         </div>
+                        <script>
+                            // Automatically hide the success message after 5 seconds
+                            setTimeout(function () {
+                                document.getElementById("success-message").style.display = "none";
+                            }, 5000);
+                        </script>
+                        {{/if}}
                         <div class="flex items-center justify-end">
                             <h2 class="font-semibold my-10 mx-2"> Sign Up</h2>
                             <div

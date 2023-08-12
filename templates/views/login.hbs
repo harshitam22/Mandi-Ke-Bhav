@@ -24,12 +24,6 @@
                              z"></path>
                 <text x="20" y="100" fill="white" class="font-bold text-3xl font-sans tracking-wider	">Welcome
                     Back</text>
-                <defs>
-                    <clipPath id="myCircle">
-                        <circle cx="250" cy="145" r="125" fill="#FFFFFF" />
-                    </clipPath>
-                </defs>
-                <image width="100" height="150" xlink:href="pepper.jpg" clip-path="url(#myCircle)" />
             </svg>
             <div class="p-6">
                 <form method="post" action="/login">
@@ -43,7 +37,7 @@
                             class="px-7 py-1 border border-black rounded-lg text-black placeholder:text-black font-medium"
                             placeholder="Email" name="email">
                     </div>
-                    <div class="mb-3"><input type="text"
+                    <div class="mb-3"><input type="password"
                             class="px-7 py-1 border border-black rounded-lg  text-black placeholder:text-black font-medium"
                             placeholder="Password" name="password">
                     </div>
@@ -62,6 +56,11 @@
                         </div>
                     </div>
                 </form>
+                {{#if error}}
+                <script>
+                    alert("{{error}}");
+                </script>
+                {{/if}}
             </div>
             <svg height="100" width="306" fill="#621111">
                 <path d="M 350,100
