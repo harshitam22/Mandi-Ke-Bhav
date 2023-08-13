@@ -39,8 +39,7 @@
                     </a>    
                     <div class="btns">
                         <form action="/cart/add" method="post">
-                        <button class="qty" onclick="subtract({{@index}})">-</button><input type="text" value="1" class="inp" name="qty"><button
-                            class="qty" onclick="add({{@index}})">+</button>
+                        <input type="button" value="-" class="qty" onclick="subtract({{@index}})"><input type="text" value="1" class="inp" name="qty"><input type="button" value="+" class="qty" onclick="add({{@index}})">
                         <br>
                             <input type="hidden" name="item_id" value="{{this._id}}">
                             <input type="hidden" name="item_name" value="{{this.name}}">
@@ -74,11 +73,25 @@
         
 
     <div class="card">
-        <h1>Cart</h1>
+        <h1>Cart</h1>        
         <ul class="listCard">
+            {{#if crt_items}}
+            {{#each crt_items}}
+                <li>
+                <div><img src="{{this.image}}" alt=""></div>
+                <div>{{this.name}}</div>
+                <div>{{this.quantity}}</div>
+                <div>{{this.price}}</div>
+                <div><button>Remove</button></div>
+                </li>
+            {{/each}}
+            {{else}}
+            <p>Your cart is empty.</p>
+            {{/if}}
         </ul>
+        
         <div class="checkOut">
-            <div class="total">₹0</div>
+            <div class="total">Proceed</div>
             <div class="closeShopping">Close</div>
         </div>
     </div>

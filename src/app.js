@@ -90,9 +90,12 @@ app.get("/fruits" , async(req,res)=>{
     res.render("fruits" , {fr});
 })
 
-app.get("/vegetables" , async(req,res)=>{
-    const vegg = await Item.find({category:"vegetable"}); 
-    res.render("vegetables" , {vegg });
+app.get("/vegetables" , auth , async(req,res)=>{
+    const user_id = req.user._id;
+    const vegg = await Item.find({category:"vegetable"});
+    const crt = await Cart.findOne({customer_id : user_id});
+    const crt_items = crt.items; 
+    res.render("vegetables" , {vegg , crt_items});
 })
 
 app.post("/cart/add"  , auth , async(req , res) => {
@@ -102,7 +105,7 @@ app.post("/cart/add"  , auth , async(req , res) => {
         const item_img = req.body.item_img;
         const item_price = req.body.item_price;
         const item_qty = req.body.qty;
-        console.log(req.user)
+        //console.log(req.user)
         const user_id = req.user._id;
 
         let cart = await Cart.findOne({customer_id : user_id});
@@ -111,16 +114,17 @@ app.post("/cart/add"  , auth , async(req , res) => {
         }
 
          // Check if the product is already in the cart
-        const existingProduct = cart.items.find((item) =>
+        const existingProduct = cart.items.findIndex((item) =>
             item.item_id.equals(item_id)
         );
 
-       if (existingProduct) {
+       if (existingProduct !== -1) {
            // Increase the quantity if the product is already in the cart
-           cart.items[existingProduct] = item_qty;
+           cart.items[existingProduct].quantity += item_qty;
+           cart.items[existingProduct].price = item_price *item_qty;
        } else {
            // Add the product to the cart
-           cart.items.push({ item_id: item_id , name :  item_name , quantity: item_qty , price : item_price, image:item_img});
+           cart.items.push({ item_id: item_id , name :  item_name , quantity: item_qty , price : item_price *item_qty, image:item_img});
        }
 
        await cart.save();
