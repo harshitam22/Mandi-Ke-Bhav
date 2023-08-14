@@ -34,6 +34,8 @@ app.set("views",template_path);
 hbs.registerPartials(partials_path);
 
 
+app.use('/' , auth);
+
 hbs.registerHelper('page', function (arr, pageSize, options) {
     var result = [];
     for (var i = 0; i < arr.length; i += pageSize) {
@@ -43,7 +45,8 @@ hbs.registerHelper('page', function (arr, pageSize, options) {
 });
 
 app.get("/",(req, res)=>{
-    res.render("index");
+    const isAuthenticated = req.isAuthenticated;
+    res.render("index" , {isAuthenticated});
 })
 
 
@@ -65,37 +68,71 @@ app.get("/logout" ,  auth , async(req,res)=>{
    }
 })
 
-app.get("/register",(req, res)=>{
-    res.render("register");
+app.get("/register", auth , (req, res)=>{
+    const isAuthenticated = req.isAuthenticated;
+    if(isAuthenticated){
+        res.render("login" , {isAuthenticated});
+    }
+    else{
+        res.render("register" , {isAuthenticated});
+    }
 })
 
 app.get("/login" , (req,res)=>{
     res.render("login");
 })
 
-app.get("/feedback" , (req,res)=>{
-    res.render("feedback");
+app.get("/feedback" , auth , (req,res)=>{
+    const isAuthenticated = req.isAuthenticated;
+    if(isAuthenticated){
+        res.render("feedback" , {isAuthenticated});
+    }
+    else{
+        res.render("login");
+    }
 })
 
-app.get("/FAQ" , (req,res)=>{
-    res.render("FAQ");
+app.get("/FAQ" , auth , (req,res)=>{
+    const isAuthenticated = req.isAuthenticated;
+    res.render("FAQ" , {isAuthenticated});
 })
 
 app.get("/payment" , (req,res)=>{
     res.render("payment");
 })
 
-app.get("/fruits" , async(req,res)=>{
-    const fr = await Item.find({category:"fruit"});
-    res.render("fruits" , {fr});
+app.get("/services", auth , (req, res)=>{
+    const isAuthenticated = req.isAuthenticated;
+    res.render("services" , {isAuthenticated});
+})
+
+app.get("/fruits" , auth , async(req,res)=>{
+    const isAuthenticated = req.isAuthenticated;
+    if(isAuthenticated){
+        const user_id = req.user._id;
+        const fr = await Item.find({category:"fruit"});
+        const crt = await Cart.findOne({customer_id : user_id});
+        const crt_items = crt.items;
+        res.render("fruits" , {fr , crt_items , isAuthenticated});
+    }
+    else{
+        res.render("login");
+    }
 })
 
 app.get("/vegetables" , auth , async(req,res)=>{
-    const user_id = req.user._id;
-    const vegg = await Item.find({category:"vegetable"});
-    const crt = await Cart.findOne({customer_id : user_id});
-    const crt_items = crt.items; 
-    res.render("vegetables" , {vegg , crt_items});
+    const isAuthenticated = req.isAuthenticated;
+    if(isAuthenticated){
+        const user_id = req.user._id;
+        const vegg = await Item.find({category:"vegetable"});
+        const crt = await Cart.findOne({customer_id : user_id});
+        const crt_items = crt.items;
+        res.render("vegetables" , {vegg , crt_items , isAuthenticated});
+    }
+    else{
+        res.render("login");
+    }
+    
 })
 
 app.post("/cart/add"  , auth , async(req , res) => {
@@ -142,13 +179,10 @@ app.get("/:id" , async(req,res)=>{
     res.render("show" , {product});
 })
 
-app.get("/services",(req, res)=>{
-    res.render("services");
-})
 
-app.get("/trends",(req, res)=>{
-    res.render("trends");
-})
+// app.get("/trends",(req, res)=>{
+//     res.render("trends");
+// })
 
   app.post("/register", async (req, res) => {
     try {
@@ -224,7 +258,6 @@ app.post("/feedback", async(req, res)=>{
         res.status(400).send(error);
     }
 })
-
 
 app.listen(port, ()=>{
     console.log(`Server is Running at http://localhost:${port}`);
