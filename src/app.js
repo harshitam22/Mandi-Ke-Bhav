@@ -97,13 +97,24 @@ app.get("/FAQ" , auth , (req,res)=>{
     res.render("FAQ" , {isAuthenticated});
 })
 
-app.get("/payment" , (req,res)=>{
-    res.render("payment");
+app.get("/payment" , auth , async(req,res)=>{
+    const user_id = req.user._id;
+    const crt = await Cart.findOne({customer_id : user_id});
+    let sum = 0;
+    for(var i =0 ; i < crt.items.length; i++){
+        sum += crt.items[i].price;
+    }
+    //console.log(sum);
+    res.render("payment" , {crt , sum});
 })
 
 app.get("/services", auth , (req, res)=>{
     const isAuthenticated = req.isAuthenticated;
     res.render("services" , {isAuthenticated});
+})
+
+app.get("/success" , (req,res) => {
+    res.render("success");
 })
 
 app.get("/fruits" , auth , async(req,res)=>{
@@ -137,6 +148,7 @@ app.get("/vegetables" , auth , async(req,res)=>{
 
 app.post("/cart/add"  , auth , async(req , res) => {
     try{
+        const isAuthenticated = req.isAuthenticated;
         const item_id = req.body.item_id;
         const item_name = req.body.item_name;
         const item_img = req.body.item_img;
@@ -144,8 +156,8 @@ app.post("/cart/add"  , auth , async(req , res) => {
         const item_qty = req.body.qty;
         //console.log(req.user)
         const user_id = req.user._id;
-
         let cart = await Cart.findOne({customer_id : user_id});
+        //const crt_items = cart.items;
         if(!cart){
              cart = new Cart({customer_id: user_id , items:[]})
         }
@@ -154,31 +166,46 @@ app.post("/cart/add"  , auth , async(req , res) => {
         const existingProduct = cart.items.findIndex((item) =>
             item.item_id.equals(item_id)
         );
-
        if (existingProduct !== -1) {
            // Increase the quantity if the product is already in the cart
-           cart.items[existingProduct].quantity += item_qty;
-           cart.items[existingProduct].price = item_price *item_qty;
+           cart.items[existingProduct].quantity += Number(item_qty);
+           cart.items[existingProduct].price += Number(item_qty) * Number(item_price);
        } else {
            // Add the product to the cart
-           cart.items.push({ item_id: item_id , name :  item_name , quantity: item_qty , price : item_price *item_qty, image:item_img});
+           cart.items.push({ item_id: item_id , name :  item_name , quantity: item_qty , price : item_price * item_qty, image:item_img});
        }
 
        await cart.save();
-       res.send('Product added to cart');
+       res.redirect('back');
+       //res.send('product added');
+       //res.render('vegetables' , {vegg , crt_items , isAuthenticated});
     } catch (error) {
     console.log(error);
     res.status(500).send('Server Error');
     }
 })
 
-app.get("/:id" , async(req,res)=>{
-    const {id} = req.params;
-    const product = await Item.findById(id);
-    //console.log(id);
-    res.render("show" , {product});
-})
+app.post("/cart/remove" , auth , async(req,res) =>{
+    try{
+        const itemId = req.body.itemId;
+        const user_id = req.user._id;
 
+        //let cart = await Cart.find({customer_id : user_id});
+        //let it = await cart.find({item_id : itemId});
+        //console.log(it);
+        //cart.updateMany({} , {$pull : {items : {$in : [{item_id : itemId}]}}});
+        //cart.updateOne({},{$pull: });
+        await Cart.findOneAndUpdate(
+            {customer_id: user_id},            
+            {$pull: {items : {item_id : itemId}}}
+        ).exec();
+        //await cart.save();
+        //res.redirect('back');
+    }catch(error){
+        console.error(error);
+        res.status(500).send('Server Error');
+    }
+})
 
 // app.get("/trends",(req, res)=>{
 //     res.render("trends");
@@ -258,6 +285,13 @@ app.post("/feedback", async(req, res)=>{
         res.status(400).send(error);
     }
 })
+
+app.get("/:id" , async(req,res)=>{
+     const {id} = req.params;
+     const product = await Item.findById(id);
+     //console.log(id);
+     res.render("show" , {product});
+     })
 
 app.listen(port, ()=>{
     console.log(`Server is Running at http://localhost:${port}`);

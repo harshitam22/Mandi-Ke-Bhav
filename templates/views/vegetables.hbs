@@ -45,7 +45,7 @@
                             <input type="hidden" name="item_name" value="{{this.name}}">
                             <input type="hidden" name="item_img" value="{{this.image}}">
                             <input type="hidden" name="item_price" value="{{this.today}}">
-                            <button onclick="addcart({{@index}})"
+                            <button
                                 style="cursor: pointer; background-color: white; width: 56%; height: 25px; border: 1px solid #5d9508;">Add
                                 to
                                 Cart</button>
@@ -85,7 +85,7 @@
                 <div>{{this.name}}</div>
                 <div>{{this.quantity}}</div>
                 <div>{{this.price}}</div>
-                <div><button>Remove</button></div>
+                <div><form action="/cart/remove" method="post"><input type="hidden" name="itemId" value="{{this._id}}"><input type="submit" value="Remove"></form></div>
                 </li>
             {{/each}}
             {{else}}
@@ -94,7 +94,7 @@
         </ul>
         
         <div class="checkOut">
-            <div class="total">Proceed</div>
+            <a href ="payment" style="text-decoration:none"><div class="total">Proceed</div></a>
             <div class="closeShopping">Close</div>
         </div>
     </div>
