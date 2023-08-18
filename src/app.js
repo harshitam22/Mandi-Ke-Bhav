@@ -44,7 +44,7 @@ hbs.registerHelper('page', function (arr, pageSize, options) {
     return result.join('');
 });
 
-app.get("/",(req, res)=>{
+app.get(["/", "/home"],(req, res)=>{
     const isAuthenticated = req.isAuthenticated;
     res.render("index" , {isAuthenticated});
 })
