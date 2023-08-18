@@ -113,7 +113,7 @@ app.get("/services", auth , (req, res)=>{
     res.render("services" , {isAuthenticated});
 })
 
-app.get("/success" , (req,res) => {
+app.get("/success" , auth , async(req,res) => {
     res.render("success");
 })
 
@@ -166,6 +166,7 @@ app.post("/cart/add"  , auth , async(req , res) => {
         const existingProduct = cart.items.findIndex((item) =>
             item.item_id.equals(item_id)
         );
+        //console.log(existingProduct);
        if (existingProduct !== -1) {
            // Increase the quantity if the product is already in the cart
            cart.items[existingProduct].quantity += Number(item_qty);
@@ -189,18 +190,11 @@ app.post("/cart/remove" , auth , async(req,res) =>{
     try{
         const itemId = req.body.itemId;
         const user_id = req.user._id;
-
-        //let cart = await Cart.find({customer_id : user_id});
-        //let it = await cart.find({item_id : itemId});
-        //console.log(it);
-        //cart.updateMany({} , {$pull : {items : {$in : [{item_id : itemId}]}}});
-        //cart.updateOne({},{$pull: });
         await Cart.findOneAndUpdate(
             {customer_id: user_id},            
             {$pull: {items : {item_id : itemId}}}
-        ).exec();
-        //await cart.save();
-        //res.redirect('back');
+        )
+        res.redirect('back');
     }catch(error){
         console.error(error);
         res.status(500).send('Server Error');
@@ -223,7 +217,7 @@ app.post("/cart/remove" , auth , async(req,res) =>{
         const token = await registerEmployee.generateAuthToken();
       //  console.log("The token part " + token);
       res.cookie("jwt",token,{
-        expires: new Date(Date.now()+300000),
+        expires: new Date(Date.now()+30000000),
         httpOnly:true
       });
       
@@ -252,7 +246,7 @@ app.post("/login", async (req, res) => {
        // console.log("The token part " + token);
       
         res.cookie("jwt",token,{
-            expires: new Date(Date.now()+300000),
+            expires: new Date(Date.now()+30000000),
             httpOnly:true
         });
         
@@ -260,9 +254,9 @@ app.post("/login", async (req, res) => {
         if (user && isMatch) {
             // Successful login
             
-            res.render("index", { success: "Login successful! Welcome back." });
+            res.redirect("/");
         } else {
-            res.render("login", { error: "Invalid email or password. Please try again." });
+            res.redirect("/login?error=Invalid%20email%20or%20password");
         }
     } catch (error) {
         console.log(error);
