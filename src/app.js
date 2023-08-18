@@ -123,8 +123,7 @@ app.get("/fruits" , auth , async(req,res)=>{
         const user_id = req.user._id;
         const fr = await Item.find({category:"fruit"});
         const crt = await Cart.findOne({customer_id : user_id});
-        const crt_items = crt.items;
-        res.render("fruits" , {fr , crt_items , isAuthenticated});
+        res.render("fruits" , {fr , crt , isAuthenticated});
     }
     else{
         res.render("login");
@@ -137,8 +136,7 @@ app.get("/vegetables" , auth , async(req,res)=>{
         const user_id = req.user._id;
         const vegg = await Item.find({category:"vegetable"});
         const crt = await Cart.findOne({customer_id : user_id});
-        const crt_items = crt.items;
-        res.render("vegetables" , {vegg , crt_items , isAuthenticated});
+        res.render("vegetables" , {vegg , crt, isAuthenticated});
     }
     else{
         res.render("login");
@@ -224,6 +222,12 @@ app.post("/cart/remove" , auth , async(req,res) =>{
     //  console.log(cookie);
 
         const registered = await registerEmployee.save();
+        const newCart = new Cart({ customer_id: registerEmployee._id, items: [] });
+        await newCart.save();
+
+        registerEmployee.cart = newCart._id;
+        await registerEmployee.save();
+
       //  console.log("The page part " + registered);
 
         res.render("register", { success: "Registration successful!." });
