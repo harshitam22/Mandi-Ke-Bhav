@@ -3,7 +3,10 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const hbs = require("hbs");
-require("./db/conn");
+
+require("./src/db/conn");
+
+const favicon = require('serve-favicon');
 const Register = require("./models/register");
 const async = require("hbs/lib/async");
 const exp = require("constants");
@@ -14,15 +17,15 @@ const cookieParser = require('cookie-parser');
 const auth = require("./middleware/auth");
 const Item = require('./models/items');
 const Cart = require('./models/cart');
-const favicon = require('serve-favicon');
+const mongoose = require('mongoose')
 
 
 const port=process.env.PORT || 3300;
 
 
-const static_path="C:/Users/DELL/Desktop/Projects/Mandi Ke Bhav/public"
-const template_path="C:/Users/DELL/Desktop/Projects/Mandi Ke Bhav/templates/views"
-const partials_path="C:/Users/DELL/Desktop/Projects/Mandi Ke Bhav/templates/partials"
+const static_path = path.join(__dirname, 'public');
+const template_path = path.join(__dirname, 'templates', 'views');
+const partials_path = path.join(__dirname, 'templates', 'partials');
 
 app.use(express.json());
 app.use(cookieParser());
