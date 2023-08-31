@@ -33,6 +33,10 @@ const ItemSchema = new mongoose.Schema({
     today: {
         type: Number,
         min:0
+    },
+
+    index: {
+        type:String
     }
 })
 

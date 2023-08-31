@@ -14,6 +14,7 @@ const cookieParser = require('cookie-parser');
 const auth = require("./middleware/auth");
 const Item = require('./models/items');
 const Cart = require('./models/cart');
+const favicon = require('serve-favicon');
 
 
 const port=process.env.PORT || 3300;
@@ -29,6 +30,7 @@ app.use(express.urlencoded({extended:false}));
 
 
 app.use(express.static(static_path));
+app.use(favicon(path.join(static_path , 'css' , 'images' , 'favicon.ico')));
 app.set("view engine","hbs");
 app.set("views",template_path);
 hbs.registerPartials(partials_path);
@@ -48,8 +50,6 @@ app.get(["/", "/home"],(req, res)=>{
     const isAuthenticated = req.isAuthenticated;
     res.render("index" , {isAuthenticated});
 })
-
-
 
 app.get("/logout" ,  auth , async(req,res)=>{
    try {
@@ -199,9 +199,6 @@ app.post("/cart/remove" , auth , async(req,res) =>{
     }
 })
 
-// app.get("/trends",(req, res)=>{
-//     res.render("trends");
-// })
 
   app.post("/register", async (req, res) => {
     try {
@@ -284,12 +281,16 @@ app.post("/feedback", async(req, res)=>{
     }
 })
 
+app.get("/trends" , async(req,res)=>{
+    res.render("trends");
+})
+
 app.get("/:id" , async(req,res)=>{
-     const {id} = req.params;
-     const product = await Item.findById(id);
-     //console.log(id);
-     res.render("show" , {product});
-     })
+    const {id} = req.params;
+    const product = await Item.findById(id);
+
+    res.render("show" , {product});
+})
 
 app.listen(port, ()=>{
     console.log(`Server is Running at http://localhost:${port}`);

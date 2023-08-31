@@ -39,7 +39,7 @@
                     </a>    
                     <div class="btns">
                         <form action="/cart/add" method="post">
-                        <input type="button" value="-" class="qty" onclick="subtract({{@index}})"><input type="text" value="1" class="inp" name="qty"><input type="button" value="+" class="qty" onclick="add({{@index}})">
+                        <input type="button" value="-" class="qty" onclick="subtract({{this.index}})"><input type="text" value="1" class="inp" name="qty"><input type="button" value="+" class="qty" onclick="add({{this.index}})">
                         <br>
                             <input type="hidden" name="item_id" value="{{this._id}}">
                             <input type="hidden" name="item_name" value="{{this.name}}">
